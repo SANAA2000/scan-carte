@@ -61,7 +61,6 @@ body {
   justify-content: center;
   overflow: hidden;
   margin-bottom: 14px;
-  position: relative;
 }
 
 .preview span {
@@ -78,7 +77,7 @@ body {
 .status {
   text-align: center;
   font-size: 13px;
-  color: #22c55e;
+  color: var(--success);
   margin-bottom: 10px;
   display: none;
 }
@@ -157,7 +156,7 @@ input[type="file"] {
           onchange="showPreview(event)"
           required>
       </label>
-&nbsp;</br>
+
       <button class="btn btn-submit" id="submitBtn" type="submit" disabled>
         🚀 Envoyer
       </button>
@@ -170,11 +169,14 @@ input[type="file"] {
   </div>
 </div>
 
+<!-- PREVIEW IMAGE -->
 <script>
 function showPreview(event) {
   const preview = document.getElementById('preview');
   const status = document.getElementById('status');
   const submitBtn = document.getElementById('submitBtn');
+
+  if (!event.target.files.length) return;
 
   preview.innerHTML = '';
   const img = document.createElement('img');
@@ -186,6 +188,8 @@ function showPreview(event) {
   submitBtn.classList.add('active');
 }
 </script>
+
+<!-- ENVOI AUTO + RESET -->
 <script>
 const form = document.querySelector("form");
 const submitBtn = document.getElementById("submitBtn");
@@ -193,7 +197,7 @@ const preview = document.getElementById("preview");
 const status = document.getElementById("status");
 
 form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // ⛔ pas de reload
+  e.preventDefault();
 
   submitBtn.innerText = "⏳ Envoi...";
   submitBtn.disabled = true;
@@ -206,8 +210,7 @@ form.addEventListener("submit", async (e) => {
       body: formData
     });
 
-    // ✅ message succès
-    status.innerText = "✅ Carte envoyée avec succès. Vous pouvez en scanner une autre.";
+    status.innerText = "✅ Carte enregistrée. Vous pouvez scanner une autre carte.";
     status.style.display = "block";
 
     setTimeout(() => {
@@ -220,7 +223,7 @@ form.addEventListener("submit", async (e) => {
       status.innerText = "✔ Photo prête à être envoyée";
     }, 2000);
 
-  } catch (error) {
+  } catch (err) {
     status.innerText = "❌ Erreur lors de l’envoi";
     status.style.display = "block";
     submitBtn.innerText = "🚀 Envoyer";
@@ -228,8 +231,6 @@ form.addEventListener("submit", async (e) => {
   }
 });
 </script>
-
-
 
 </body>
 </html>
