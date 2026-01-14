@@ -186,6 +186,15 @@ function showPreview(event) {
   submitBtn.classList.add('active');
 }
 </script>
+<script>
+document.querySelector("form").addEventListener("submit", () => {
+  setTimeout(() => {
+    alert("Carte enregistrée ✅ Vous pouvez scanner une autre carte");
+    document.querySelector("form").reset();
+  }, 800);
+});
+</script>
+
 
 </body>
 </html>
