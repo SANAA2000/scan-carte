@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scanner une carte</title>
+
+<style>
+:root {
+  --primary: #111;
+  --success: #22c55e;
+  --bg: #f6f2ef;
+  --card: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: var(--bg);
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.preview {
+  width: 100%;
+  height: 280px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #eaeaea, #f5f5f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.preview span {
+  color: #999;
+  font-size: 14px;
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.status {
+  text-align: center;
+  font-size: 13px;
+  color: #22c55e;
+  margin-bottom: 10px;
+  display: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-camera {
+  background: var(--primary);
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.btn-camera:active {
+  transform: scale(0.98);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: #fff;
+  opacity: 0.5;
+}
+
+.btn-submit.active {
+  opacity: 1;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <div class="header">
+      <h1>📸 Scanner une carte</h1>
+      <p>Prends une photo nette de la carte de visite</p>
+    </div>
+
+    <div class="preview" id="preview">
+      <span>Aucune photo</span>
+    </div>
+
+    <div class="status" id="status">✔ Photo prête à être envoyée</div>
+
+    <form 
+      action="https://ksm.app.n8n.cloud/webhook-test/scan-carte"
+      method="POST"
+      enctype="multipart/form-data">
+
+      <label class="btn btn-camera">
+        📷 Prendre une photo
+        <input 
+          type="file"
+          name="image"
+          accept="image/*"
+          capture="environment"
+          onchange="showPreview(event)"
+          required>
+      </label>
+&nbsp;</br>
+      <button class="btn btn-submit" id="submitBtn" type="submit" disabled>
+        🚀 Envoyer
+      </button>
+    </form>
+
+    <div class="footer">
+      Données traitées automatiquement par IA
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showPreview(event) {
+  const preview = document.getElementById('preview');
+  const status = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+
+  preview.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = URL.createObjectURL(event.target.files[0]);
+  preview.appendChild(img);
+
+  status.style.display = 'block';
+  submitBtn.disabled = false;
+  submitBtn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
